@@ -10,6 +10,8 @@ import android.util.Log;
 
 import java.io.File;
 
+import hcmute.edu.vn.s18110395.Domain.Product;
+
 public class UserHelper extends SQLiteOpenHelper {
     private final static String TAG = "UserHelper";
     private final Context myContext;
@@ -76,6 +78,7 @@ public class UserHelper extends SQLiteOpenHelper {
             return false;
         }
     }
+
 
 
     @Override

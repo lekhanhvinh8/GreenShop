@@ -20,10 +20,11 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/home_page"
                 android:layout_width="21dp"
                 android:layout_height="21dp"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/outline_place_24">
+                android:src="@drawable/ic_baseline_storefront_24">
             </androidx.appcompat.widget.AppCompatImageView>
 
             <Spinner
@@ -53,12 +54,35 @@
             </androidx.appcompat.widget.AppCompatImageView>
 
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/invoice"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="3dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_baseline_assignment_24">
+            </androidx.appcompat.widget.AppCompatImageView>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/cart"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="3dp"
                 android:layout_alignParentRight="true"
                 android:src="@drawable/outline_shopping_bag_24">
             </androidx.appcompat.widget.AppCompatImageView>
+
+            <TextView
+                android:id="@+id/num_cart"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center"
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="2dp"
+                android:text="0">
+
+            </TextView>
         </LinearLayout>
 
         <LinearLayout
@@ -71,6 +95,7 @@
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/search"
                 android:src="@drawable/ic_baseline_search_24"
                 android:layout_marginLeft="4dp"
                 android:layout_marginTop="8dp"
@@ -79,6 +104,7 @@
             </androidx.appcompat.widget.AppCompatImageView>
 
             <EditText
+                android:id="@+id/key_search"
                 android:layout_width="300dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -126,18 +152,24 @@
                 android:layout_weight="25">
 
                 <ImageButton
+                    android:id="@+id/cate_rau"
+                    android:tag="tag cate1"
                     android:layout_gravity="center"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
+                    android:padding="2dp"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
                     android:background="@drawable/roundedbutton"
-                    android:src="@drawable/ic_baseline_storefront_24" />
+                    android:src="@drawable/rau"/>
+
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:textSize="12dp"
-                    android:text="Đi chợ">
+                    android:text="Rau">
                 </TextView>
             </LinearLayout>
 
@@ -148,10 +180,15 @@
                 android:layout_weight="25">
 
                 <ImageButton
+                    android:id="@+id/cate_thit"
                     android:layout_gravity="center"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:background="@drawable/roundedbutton"
+                    android:padding="2dp"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/thit"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true" />
 
@@ -160,7 +197,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:textSize="12dp"
-                    android:text="Hot deal">
+                    android:text="Thịt">
                 </TextView>
             </LinearLayout>
 
@@ -171,10 +208,15 @@
                 android:layout_weight="25">
 
                 <ImageButton
+                    android:id="@+id/cate_ca"
                     android:layout_gravity="center"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:background="@drawable/roundedbutton"
+                    android:padding="2dp"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ca"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true" />
 
@@ -183,7 +225,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:textSize="12dp"
-                    android:text="Combo món">
+                    android:text="Cá">
                 </TextView>
             </LinearLayout>
 
@@ -194,10 +236,15 @@
                 android:layout_weight="25">
 
                 <ImageButton
+                    android:id="@+id/cate_bia"
                     android:layout_gravity="center"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:background="@drawable/roundedbutton"
+                    android:padding="2dp"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/beer"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true" />
 
@@ -205,9 +252,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:textSize="12dp"
-                    android:text="Đồng giá 15k">
-                </TextView>
+                    android:text="Bia"
+                    android:textSize="12dp"></TextView>
             </LinearLayout>
         </LinearLayout>
 
@@ -227,19 +273,24 @@
                 android:layout_weight="25">
 
                 <ImageButton
+                    android:id="@+id/cate.dohop"
                     android:layout_gravity="center"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
+                    android:padding="2dp"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/can"
                     android:background="@drawable/roundedbutton"
                     android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:src="@drawable/outline_local_bar_24" />
+                    android:layout_alignParentRight="true"/>
+
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Hưu cơ"
+                    android:text="Đồ hộp"
                     android:textSize="12dp"></TextView>
             </LinearLayout>
 
@@ -250,20 +301,24 @@
                 android:layout_weight="25">
 
                 <ImageButton
+                    android:id="@+id/cate_donglanh"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
                     android:layout_gravity="center"
-                    android:background="@drawable/roundedbutton"
-                    android:src="@drawable/outline_train_24" />
+                    android:padding="2dp"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/donglanh"
+                    android:background="@drawable/roundedbutton" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:textSize="12dp"
-                    android:text="Nhập khẩu">
+                    android:text="Đồ đông lạnh">
                 </TextView>
             </LinearLayout>
 
@@ -274,20 +329,24 @@
                 android:layout_weight="25">
 
                 <ImageButton
+                    android:id="@+id/cate_nuocngot"
                     android:layout_gravity="center"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:background="@drawable/roundedbutton"
+                    android:padding="2dp"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/coca"
                     android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:src="@drawable/outline_set_meal_24" />
+                    android:layout_alignParentRight="true"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:textSize="12dp"
-                    android:text="Đồ tươi">
+                    android:text="Nước ngọt">
                 </TextView>
             </LinearLayout>
 

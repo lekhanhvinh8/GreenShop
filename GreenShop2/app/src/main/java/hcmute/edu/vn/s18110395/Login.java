@@ -1,8 +1,11 @@
 package hcmute.edu.vn.s18110395;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import hcmute.edu.vn.s18110395.Helper.UserHelper;
@@ -54,11 +58,30 @@ public class Login extends AppCompatActivity {
                 Boolean isTrue = userHelper.login(userName, password);
 
                 if(!isTrue){
-                    Toast toast = Toast.makeText(getApplicationContext(), "Username or password is incorrect", 3);
-                    toast.show();
+
+                    new AlertDialog.Builder(Login.this)
+                            .setTitle("Đăng nhập thất bại")
+                            .setMessage("Tên đăng nhập hoặc mật khẩu không đúng")
+
+                            // Specifying a listener allows you to take an action before dismissing the dialog.
+                            // The dialog is automatically dismissed when a dialog button is clicked.
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Continue with delete operation
+                                }
+                            })
+                            // A null listener allows the button to dismiss the dialog and take no further action.
+                            //.setNegativeButton("No", null)
+                            .setIcon(R.drawable.beer)
+                            .show();
 
                     return;
                 }
+
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("UserName", String.valueOf(userName));
+                editor.apply();
 
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 startActivityForResult(intent, 1);

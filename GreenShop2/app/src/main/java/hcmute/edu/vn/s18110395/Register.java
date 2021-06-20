@@ -1,19 +1,16 @@
 package hcmute.edu.vn.s18110395;
 
-import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -24,11 +21,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.UUID;
 
 import hcmute.edu.vn.s18110395.Helper.UserHelper;
 
@@ -76,33 +73,87 @@ public class Register extends AppCompatActivity {
                 String passwordConfirm = edt_password_confirm.getText().toString();
 
                 if(!password.equals(passwordConfirm)){
-                    Toast toast = Toast.makeText(getApplicationContext(), "Password confirmation doesn't match password", 3);
-                    toast.show();
+
+                    new AlertDialog.Builder(Register.this)
+                            .setTitle("Đăng ký thất bại")
+                            .setMessage("Mật khẩu và xác nhận mật khẩu không khớp nhau")
+
+                            // Specifying a listener allows you to take an action before dismissing the dialog.
+                            // The dialog is automatically dismissed when a dialog button is clicked.
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Continue with delete operation
+                                }
+                            })
+                            // A null listener allows the button to dismiss the dialog and take no further action.
+                            //.setNegativeButton("No", null)
+                            .setIcon(R.drawable.beer)
+                            .show();
+
                     return;
                 }
 
                 Boolean isUserExist = userHelper.isUserExist(phoneNumber);
 
                 if(isUserExist){
-                    Toast toast = Toast.makeText(getApplicationContext(), "Phone number already in use", 3);
-                    toast.show();
+                    new AlertDialog.Builder(Register.this)
+                            .setTitle("Đăng ký thất bại")
+                            .setMessage("Số điện thoại đã được sử dụng")
+
+                            // Specifying a listener allows you to take an action before dismissing the dialog.
+                            // The dialog is automatically dismissed when a dialog button is clicked.
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Continue with delete operation
+                                }
+                            })
+                            // A null listener allows the button to dismiss the dialog and take no further action.
+                            //.setNegativeButton("No", null)
+                            .setIcon(R.drawable.beer)
+                            .show();
+
                     return;
                 }
 
                 boolean result = userHelper.register(phoneNumber, password);
                 if(result == true)
                 {
-                    Toast toast = Toast.makeText(getApplicationContext(), "Sign up success", 3);
-                    toast.show();
+                    new AlertDialog.Builder(Register.this)
+                      // Specifying a listener allows you to take an action before dismissing the dialog.
+                            .setTitle("Thành công")
+                            .setMessage("Đăng ký thành công")
 
-                    Intent intent = new Intent(getApplicationContext(),Login.class);
-                    startActivityForResult(intent, 1);
+                            // The dialog is automatically dismissed when a dialog button is clicked.
+                            .setPositiveButton("Tới trang đăng nhập", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent(getApplicationContext(),Login.class);
+                                    startActivityForResult(intent, 1);
+                                }
+                            })
+                            // A null listener allows the button to dismiss the dialog and take no further action.
+                            //.setNegativeButton("No", null)
+                            .setIcon(R.drawable.beer)
+                            .show();
 
                     return;
                 }
 
-                Toast toast = Toast.makeText(getApplicationContext(), "registration failed", 3);
-                toast.show();
+                new AlertDialog.Builder(Register.this)
+                        // Specifying a listener allows you to take an action before dismissing the dialog.
+                        .setTitle("Đăng ký thất bại")
+                        .setMessage("Lỗi không xác định")
+
+                        // The dialog is automatically dismissed when a dialog button is clicked.
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(getApplicationContext(),Login.class);
+                                startActivityForResult(intent, 1);
+                            }
+                        })
+                        // A null listener allows the button to dismiss the dialog and take no further action.
+                        //.setNegativeButton("No", null)
+                        .setIcon(R.drawable.beer)
+                        .show();
             }
         });
     }
@@ -114,7 +165,20 @@ public class Register extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            selectImage.setImageBitmap(imageBitmap);
+
+            String filename = UUID.randomUUID().toString();
+            filename += ".jpg";
+
+            String path = saveToInternalStorage(imageBitmap, filename);
+
+            File f = new File(path, filename);
+            try {
+                Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+
+                selectImage.setImageBitmap(b);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -127,5 +191,28 @@ public class Register extends AppCompatActivity {
         }
     }
 
+    private String saveToInternalStorage(Bitmap bitmapImage, String fileName){
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        // path to /data/data/yourapp/app_data/imageDir
+        File directory = cw.getDir("images", Context.MODE_PRIVATE);
 
+        // Create imageDir
+        File mypath = new File(directory, fileName);
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(mypath);
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return directory.getAbsolutePath();
+    }
 }
